@@ -1,94 +1,106 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rudra - Hack Tool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RUDRA - Hacking...</title>
   <style>
     body {
-      background-color: black;
-      color: lime;
-      font-family: monospace;
-      font-size: 1.5em;
       margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      background: black;
+      color: lime;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 18px;
       overflow: hidden;
     }
-    #text {
+    #title {
+      color: red;
+      text-align: right;
+      padding: 10px 20px;
+      font-size: 24px;
+    }
+    #hackScreen {
+      padding: 10px 20px;
       white-space: pre-line;
-      text-align: center;
     }
     #truth {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: black;
+      color: white;
       display: none;
-      color: red;
-      font-weight: bold;
-      font-size: 2em;
-      margin-top: 20px;
-    }
-    #rudra {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      color: red;
-      font-size: 1.2em;
+      justify-content: center;
+      align-items: center;
+      font-size: 28px;
+      text-align: center;
+      z-index: 999;
     }
   </style>
 </head>
 <body>
-  <div id="rudra">RUDRA</div>
-  <div id="text">
-Initializing HackTool v3.2...
-Bypassing firewall... ✅
-Accessing internal storage... 📁
-Extracting contacts... 📞
-Uploading files to dark web... 🌐
-Injecting remote payload... 💣
-Encrypting system files... 🔐
-Tracking GPS location... 📍
-Establishing backdoor access... 🔋
 
-SYSTEM BREACH SUCCESSFUL! ☠️
----
-Hold screen 5 seconds to reveal truth...
-  </div>
-  <div id="truth">This is just a prank! 😄</div>
-  <audio id="scarySound" autoplay loop>
-    <source src="sound.mp3" type="audio/mpeg" />
-    Your browser does not support the audio element.
-  </audio>
-  <script>
-    let holdTimer;
-    const body = document.body;
-    const truth = document.getElementById("truth");
+<div id="title">RUDRA</div>
+<div id="hackScreen">Initializing HackTool v3.2...</div>
+<div id="truth">😅 You've been pranked!<br><br>By RUDRA</div>
 
-    function revealTruth() {
-      document.getElementById("text").style.display = "none";
-      truth.style.display = "block";
-      document.getElementById("rudra").style.display = "none";
-      document.getElementById("scarySound").pause();
-    }
+<audio autoplay loop>
+  <source src="https://www.soundjay.com/misc/sounds/bomb-siren-01.mp3" type="audio/mpeg">
+</audio>
 
-    body.addEventListener("touchstart", () => {
-      holdTimer = setTimeout(revealTruth, 5000);
-    });
+<script>
+  const lines = [
+    "Bypassing firewall... ✅",
+    "Accessing internal storage... 📁",
+    "Extracting contacts... 📞",
+    "Uploading files to dark web... 🌐",
+    "Injecting remote payload... 💣",
+    "Encrypting system files... 🔐",
+    "Tracking GPS location... 📍",
+    "Establishing backdoor access... 🔋",
+    "SYSTEM BREACH SUCCESSFUL! ☠️",
+    "Cracking WiFi credentials...",
+    "Stealing browser cookies...",
+    "Accessing front camera...",
+    "Brute-forcing passwords...",
+    "Disabling antivirus..."
+  ];
 
-    body.addEventListener("touchend", () => {
-      clearTimeout(holdTimer);
-    });
+  const hackScreen = document.getElementById('hackScreen');
+  const truthScreen = document.getElementById('truth');
+  let idx = 0;
 
-    body.addEventListener("mousedown", () => {
-      holdTimer = setTimeout(revealTruth, 5000);
-    });
+  setInterval(() => {
+    const line = lines[Math.floor(Math.random() * lines.length)];
+    hackScreen.innerText += "\n" + line;
+    hackScreen.scrollTop = hackScreen.scrollHeight;
+  }, 1000);
 
-    body.addEventListener("mouseup", () => {
-      clearTimeout(holdTimer);
-    });
-  </script>
+  let holdStart = null;
+  const holdTime = 5000;
+
+  const checkHold = (e) => {
+    holdStart = Date.now();
+    const interval = setInterval(() => {
+      if (Date.now() - holdStart >= holdTime) {
+        clearInterval(interval);
+        truthScreen.style.display = "flex";
+      }
+    }, 100);
+
+    const cancelHold = () => {
+      clearInterval(interval);
+      holdStart = null;
+      window.removeEventListener('mouseup', cancelHold);
+      window.removeEventListener('touchend', cancelHold);
+    };
+
+    window.addEventListener('mouseup', cancelHold);
+    window.addEventListener('touchend', cancelHold);
+  };
+
+  window.addEventListener('mousedown', checkHold);
+  window.addEventListener('touchstart', checkHold);
+</script>
+
 </body>
 </html>
