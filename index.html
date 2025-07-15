@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rudra - Hack Tool</title>
+  <style>
+    body {
+      background-color: black;
+      color: lime;
+      font-family: monospace;
+      font-size: 1.5em;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #text {
+      white-space: pre-line;
+      text-align: center;
+    }
+    #truth {
+      display: none;
+      color: red;
+      font-weight: bold;
+      font-size: 2em;
+      margin-top: 20px;
+    }
+    #rudra {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      color: red;
+      font-size: 1.2em;
+    }
+  </style>
+</head>
+<body>
+  <div id="rudra">RUDRA</div>
+  <div id="text">
+Initializing HackTool v3.2...
+Bypassing firewall... ✅
+Accessing internal storage... 📁
+Extracting contacts... 📞
+Uploading files to dark web... 🌐
+Injecting remote payload... 💣
+Encrypting system files... 🔐
+Tracking GPS location... 📍
+Establishing backdoor access... 🔋
+
+SYSTEM BREACH SUCCESSFUL! ☠️
+---
+Hold screen 5 seconds to reveal truth...
+  </div>
+  <div id="truth">This is just a prank! 😄</div>
+  <audio id="scarySound" autoplay loop>
+    <source src="sound.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+  </audio>
+  <script>
+    let holdTimer;
+    const body = document.body;
+    const truth = document.getElementById("truth");
+
+    function revealTruth() {
+      document.getElementById("text").style.display = "none";
+      truth.style.display = "block";
+      document.getElementById("rudra").style.display = "none";
+      document.getElementById("scarySound").pause();
+    }
+
+    body.addEventListener("touchstart", () => {
+      holdTimer = setTimeout(revealTruth, 5000);
+    });
+
+    body.addEventListener("touchend", () => {
+      clearTimeout(holdTimer);
+    });
+
+    body.addEventListener("mousedown", () => {
+      holdTimer = setTimeout(revealTruth, 5000);
+    });
+
+    body.addEventListener("mouseup", () => {
+      clearTimeout(holdTimer);
+    });
+  </script>
+</body>
+</html>
