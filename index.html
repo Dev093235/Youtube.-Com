@@ -1,147 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Hacking in Progress</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RUDRA - HackTool</title>
   <style>
     body {
-      margin: 0;
       background-color: black;
-      color: #00ff00;
-      font-family: 'Courier New', monospace;
-      font-size: 1.1em;
+      color: lime;
+      font-family: monospace;
+      font-size: 1.2em;
+      margin: 0;
+      padding: 20px;
       overflow: hidden;
     }
-
-    #container {
-      padding: 20px;
-      white-space: pre-wrap;
-      line-height: 1.6;
+    #hacking {
+      white-space: pre-line;
+      line-height: 1.5;
     }
-
-    #truth {
-      display: none;
-      font-size: 2em;
-      color: white;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
+    .flash {
+      animation: flash 0.2s alternate infinite;
     }
-
-    .warning {
-      animation: flash 0.2s infinite alternate;
-    }
-
     @keyframes flash {
       from { background-color: black; }
-      to { background-color: darkred; }
+      to { background-color: red; }
     }
-
     .glitch {
-      animation: glitch 0.3s infinite;
+      text-shadow: 0.05em 0 red, -0.05em 0 blue;
+      animation: glitch 1s infinite;
     }
-
     @keyframes glitch {
-      0% { transform: translate(0, 0); }
-      20% { transform: translate(-2px, 2px); }
-      40% { transform: translate(2px, -2px); }
-      60% { transform: translate(-1px, 1px); }
-      80% { transform: translate(1px, -1px); }
-      100% { transform: translate(0, 0); }
+      0% { transform: translate(0); }
+      20% { transform: translate(-1px, 1px); }
+      40% { transform: translate(1px, -1px); }
+      60% { transform: translate(-1px, -1px); }
+      80% { transform: translate(1px, 1px); }
+      100% { transform: translate(0); }
     }
+    #reveal {
+      display: none;
+      color: white;
+      text-align: center;
+      font-size: 1.8em;
+      margin-top: 40%;
+    }
+    audio { display: none; }
   </style>
 </head>
 <body>
 
-<audio autoplay loop>
-  <source src="https://www.fesliyanstudios.com/play-mp3/4382" type="audio/mpeg">
+<audio id="scarySound" autoplay loop>
+  <source src="https://www.soundjay.com/misc/sounds/bomb-01a.mp3" type="audio/mpeg">
 </audio>
 
-<div id="container" class="glitch"></div>
-<div id="truth">😅 You've been pranked!<br><br>By <b>RUDRA</b></div>
+<div id="hacking"></div>
+<div id="reveal">😅 You've been pranked!<br><br>By <strong>RUDRA</strong></div>
 
 <script>
-  const lines = [
-    "Initializing HackTool v3.2...",
-    "Bypassing firewall... ✅",
-    "Accessing internal storage... 📁",
-    "Extracting contacts... 📞",
-    "Uploading files to dark web... 🌐",
-    "Injecting remote payload... 💣",
-    "Encrypting system files... 🔐",
-    "Tracking GPS location... 📍",
-    "Establishing backdoor access... 🔋",
-    "System Breach Successful! ☠️",
-    "Installing rootkit...",
-    "Bypassing biometric locks...",
-    "Deleting system logs...",
-    "Hijacking camera stream...",
-    "Cloning authentication keys...",
-    "Monitoring live keystrokes...",
-    "Sending data to RUDRA...",
-    "Launching cyber attack protocol...",
-    "Injecting fake system errors...",
-    "Preparing for self-destruction...",
-  ];
+const logs = [
+  "Initializing HackTool v3.2...",
+  "Bypassing firewall... ✅",
+  "Accessing internal storage... 📁",
+  "Extracting contacts... 📞",
+  "Uploading files to dark web... 🌐",
+  "Injecting remote payload... 💣",
+  "Encrypting system files... 🔐",
+  "Tracking GPS location... 📍",
+  "Establishing backdoor access... 🔋",
+  "SYSTEM BREACH SUCCESSFUL! ☠️"
+];
 
-  let container = document.getElementById('container');
-  let truth = document.getElementById('truth');
+let index = 0;
+let interval = setInterval(() => {
+  const el = document.getElementById('hacking');
+  el.classList.toggle('flash');
+  el.classList.toggle('glitch');
+  el.textContent += logs[index % logs.length] + "\n";
+  index++;
+}, 1000);
 
-  let i = 0;
-  setInterval(() => {
-    if (container.style.display !== "none") {
-      container.innerText = lines[i % lines.length];
-      i++;
-    }
-  }, 1000);
+let holdStart = null;
+let revealTriggered = false;
 
-  let holdTimer;
-  let isHolding = false;
-  let holdStart;
+function startHold() {
+  if (revealTriggered) return;
+  holdStart = Date.now();
+}
 
-  function startHoldCheck() {
-    holdStart = Date.now();
-    holdTimer = setInterval(() => {
-      let held = Date.now() - holdStart;
-      if (held >= 5000) {
-        revealTruth();
-        clearInterval(holdTimer);
-      }
-    }, 100);
+function endHold() {
+  if (revealTriggered) return;
+  holdStart = null;
+}
+
+function checkHold() {
+  if (holdStart && Date.now() - holdStart >= 5000) {
+    revealTruth();
   }
+  requestAnimationFrame(checkHold);
+}
 
-  function revealTruth() {
-    container.style.display = 'none';
-    truth.style.display = 'block';
-    document.body.classList.remove("warning");
-    document.body.classList.remove("glitch");
-  }
+function revealTruth() {
+  revealTriggered = true;
+  clearInterval(interval);
+  document.body.classList.remove("flash");
+  document.getElementById("hacking").style.display = "none";
+  document.getElementById("reveal").style.display = "block";
+  document.body.style.backgroundColor = "black";
+  document.getElementById("scarySound").pause();
+}
 
-  document.addEventListener("touchstart", () => {
-    isHolding = true;
-    document.body.classList.add("warning");
-    startHoldCheck();
-  });
+document.body.addEventListener("touchstart", startHold);
+document.body.addEventListener("mousedown", startHold);
+document.body.addEventListener("touchend", endHold);
+document.body.addEventListener("mouseup", endHold);
 
-  document.addEventListener("touchend", () => {
-    isHolding = false;
-    clearInterval(holdTimer);
-    document.body.classList.remove("warning");
-  });
-
-  document.addEventListener("mousedown", () => {
-    isHolding = true;
-    document.body.classList.add("warning");
-    startHoldCheck();
-  });
-
-  document.addEventListener("mouseup", () => {
-    isHolding = false;
-    clearInterval(holdTimer);
-    document.body.classList.remove("warning");
-  });
+checkHold();
 </script>
 
 </body>
